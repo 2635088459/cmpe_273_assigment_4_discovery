@@ -77,7 +77,7 @@ python example_service.py user-service 8002
 python discover_and_call.py user-service 5
 ```
 
-## Demo screenshots
+## Output
 
 1. Setting up the venv
 
@@ -85,33 +85,29 @@ python discover_and_call.py user-service 5
 
 2. Starting the registry (port 5001)
 
-![registry start](Registry_start.png)
+![registry start](registry_up.png)
 
-3. Starting instance 1 (port 8001)
+3. Starting instance 1 (port 8001) and instance 2 (port 8002)
 
-![instance 1 start](instance1_start.png)
+![instances start](instance12_up.png)
 
-4. Starting instance 2 (port 8002)
+4. Running the discovery client — it finds both instances and picks one
 
-![instance 2 start](instance2_start.png)
+![discovery output 1](discovery1_output.png)
 
-5. Running the discovery client — it finds both instances and picks one
+5. Running it again — different results each time
 
-![discovery client](discovery.png)
+![discovery output 2](discovery2_output.png)
 
-6. Running it again — you get different results each time
+6. Shutting down both instances — they deregister themselves
 
-![discovery client run 2](discovery2.png)
+![instances shutdown](instance12_down.png)
 
-7. Shutting down an instance — it deregisters itself cleanly
+7. Shutting down the registry
 
-![deregistered](deregistered_success.png)
+![registry shutdown](register_down_first.png)
 
-8. Shutting down the registry
-
-![shutdown registry](shutdown_clos_registery.png)
-
-You can see in the screenshots that the client picks between `:8001` and `:8002` randomly. Each run gives different results. When you Ctrl-C an instance, it removes itself from the registry so nothing breaks.
+You can see in the output that the client picks between `:8001` and `:8002` randomly. Each run gives different results. When you Ctrl-C an instance, it removes itself from the registry so nothing breaks.
 
 ## How discovery works
 

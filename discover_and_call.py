@@ -100,7 +100,7 @@ def main():
             print(f"   ❌ No response from {addr}")
         print()
 
-    print("Done! 🎉")
+    print("Done! ")
 
 
 if __name__ == "__main__":

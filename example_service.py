@@ -185,7 +185,7 @@ def main():
     signal.signal(signal.SIGTERM, shutdown)
 
     # 4) Start the Flask HTTP server
-    print(f"\n🚀 {service_name} is running on http://localhost:{port}")
+    print(f"\n {service_name} is running on http://localhost:{port}")
     print(f"   Endpoints: /users  /users/<id>  /info  /health")
     print("   Press Ctrl-C to stop\n")
 
