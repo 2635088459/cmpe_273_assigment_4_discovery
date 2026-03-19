@@ -1,6 +1,6 @@
 # Week 7 — Microservice with Service Discovery
 
-## About this project
+## Haoyuan Shan (Aaron) ID: 015631382 Class: CMPE273 Spring 2026
 
 Our professor gave us this starter repo: [https://github.com/ranjanr/ServiceRegistry](https://github.com/ranjanr/ServiceRegistry). It had a lot of extra stuff I didn't need — Consul configs, Kubernetes manifests, Docker files, etc. I stripped all of that out and just kept the registry server (`service_registry_improved.py`).
 
