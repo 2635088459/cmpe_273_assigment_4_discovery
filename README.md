@@ -118,13 +118,22 @@ You can see in the output that the client picks between `:8001` and `:8002` rand
 
 ## How discovery works
 
-None of the service instances know about each other. They each just know the registry's address (`localhost:5001`).
+Basically nothing is hardcoded. None of the services know where the other ones are — they just know the registry exists.
 
-When an instance starts, it tells the registry "hey I'm here" by sending a POST to `/register`. The registry saves it.
+**Registration:**
+When I start a service instance (like `python example_service.py user-service 8001`), the first thing it does is hit the registry with a POST to `http://localhost:5001/register`. It sends the service name and its own address as JSON. The registry just throws that into a dictionary — service name as the key, list of instances as the value. If it gets a 201 back, cool, it's registered.
 
-The client doesn't know where the services are either. It just asks the registry: GET `/discover/user-service` — and the registry gives back a list of addresses like `http://localhost:8001` and `http://localhost:8002`.
+**Heartbeats:**
+Once registered, the instance spins up a background thread that pings `/heartbeat` every 10 seconds. It's basically saying "yo, I'm still here." The registry updates the timestamp. If something goes wrong and an instance stops sending heartbeats for 30+ seconds, the registry has a cleanup thread that automatically kicks it out. So even if a service dies without telling anyone, the registry handles it.
 
-Then the client picks one at random using `random.choice()` and sends a request to `/users/<id>`. The response has a `served_by` field so you can see which instance actually handled it. If you run it a few times you'll see it bounce between the two instances — that's basically client-side load balancing.
+**Discovery:**
+When my client script wants to talk to a service, it doesn't know any addresses. It just sends a GET to `/discover/user-service` and the registry checks which instances have sent a heartbeat recently (within 30 seconds). It sends back the ones that are still alive as a JSON list with their addresses.
+
+**Calling a service:**
+The client gets back something like `[{address: "http://localhost:8001"}, {address: "http://localhost:8002"}]`. It doesn't matter how many there are — it just does `random.choice()` to pick one and hits `/users/<id>` on it. The response always has a `served_by` field so I can see which instance handled it. Run it a few times and you'll see it bounce between 8001 and 8002 — that's basically client-side load balancing.
+
+**Graceful shutdown:**
+When I Ctrl-C an instance, there's a signal handler that catches it and fires off a POST to `/deregister`. The registry removes that instance right away. So next time a client does discovery, that dead instance won't show up. No stale entries, no broken calls.
 
 
 
