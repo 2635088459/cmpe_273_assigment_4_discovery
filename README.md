@@ -51,6 +51,13 @@ Check out [ARCHITECTURE.md](ARCHITECTURE.md) if you want the full breakdown with
 - Wrote `discover_and_call.py` from scratch — it finds services through the registry and calls one.
 - Deleted a bunch of files I didn't need: `service_registry.py`, `consul_client.py`, `Dockerfile`, shell scripts, K8s stuff, etc.
 
+## Demo video
+
+I recorded two versions of the demo — both are on YouTube, and I also uploaded the video files to this repo if you want to download them.
+
+- **With code walkthrough:** [https://youtu.be/JGNg4urwY5o](https://youtu.be/JGNg4urwY5o)
+- **Without code walkthrough (just running it):** [https://youtu.be/BMRqYHs1uGA](https://youtu.be/BMRqYHs1uGA)
+
 ## How to run
 
 First set up a venv and install dependencies:
